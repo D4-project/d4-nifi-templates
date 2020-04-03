@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<template encoding-version="1.3">
+    <description>This Process Group pops a d4 redis queue containing log lines, groks its content, and then pushes the result into another redis queue.</description>
+    <groupId>773c085a-0170-1000-05d7-45a736901c97</groupId>
+    <name>d4-grok-logs</name>
+    <snippet>
+        <controllerServices>
+            <id>389f62b0-373a-36bf-0000-000000000000</id>
+            <parentGroupId>263db4a4-39bb-326f-0000-000000000000</parentGroupId>
+            <bundle>
+                <artifact>nifi-redis-nar</artifact>
+                <group>org.apache.nifi</group>
+                <version>1.11.2</version>
+            </bundle>
+            <comments></comments>
+            <descriptors>
+                <entry>
+                    <key>Redis Mode</key>
+                    <value>
+                        <name>Redis Mode</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Connection String</key>
+                    <value>
+                        <name>Connection String</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Database Index</key>
+                    <value>
+                        <name>Database Index</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Communication Timeout</key>
+                    <value>
+                        <name>Communication Timeout</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Cluster Max Redirects</key>
+                    <value>
+                        <name>Cluster Max Redirects</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Sentinel Master</key>
+                    <value>
+                        <name>Sentinel Master</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Password</key>
+                    <value>
+                        <name>Password</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Total</key>
+                    <value>
+                        <name>Pool - Max Total</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Idle</key>
+                    <value>
+                        <name>Pool - Max Idle</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Idle</key>
+                    <value>
+                        <name>Pool - Min Idle</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Block When Exhausted</key>
+                    <value>
+                        <name>Pool - Block When Exhausted</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Wait Time</key>
+                    <value>
+                        <name>Pool - Max Wait Time</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Evictable Idle Time</key>
+                    <value>
+                        <name>Pool - Min Evictable Idle Time</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Time Between Eviction Runs</key>
+                    <value>
+                        <name>Pool - Time Between Eviction Runs</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Num Tests Per Eviction Run</key>
+                    <value>
+                        <name>Pool - Num Tests Per Eviction Run</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Create</key>
+                    <value>
+                        <name>Pool - Test On Create</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Borrow</key>
+                    <value>
+                        <name>Pool - Test On Borrow</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Return</key>
+                    <value>
+                        <name>Pool - Test On Return</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test While Idle</key>
+                    <value>
+                        <name>Pool - Test While Idle</name>
+                    </value>
+                </entry>
+            </descriptors>
+            <name>RedisConnectionPoolService - Compiler Queue</name>
+            <persistsState>false</persistsState>
+            <properties>
+                <entry>
+                    <key>Redis Mode</key>
+                    <value>Standalone</value>
+                </entry>
+                <entry>
+                    <key>Connection String</key>
+                    <value>localhost:6385</value>
+                </entry>
+                <entry>
+                    <key>Database Index</key>
+                    <value>3</value>
+                </entry>
+                <entry>
+                    <key>Communication Timeout</key>
+                    <value>10 seconds</value>
+                </entry>
+                <entry>
+                    <key>Cluster Max Redirects</key>
+                    <value>5</value>
+                </entry>
+                <entry>
+                    <key>Sentinel Master</key>
+                </entry>
+                <entry>
+                    <key>Password</key>
+                </entry>
+                <entry>
+                    <key>Pool - Max Total</key>
+                    <value>8</value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Idle</key>
+                    <value>8</value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Idle</key>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <key>Pool - Block When Exhausted</key>
+                    <value>true</value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Wait Time</key>
+                    <value>10 seconds</value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Evictable Idle Time</key>
+                    <value>60 seconds</value>
+                </entry>
+                <entry>
+                    <key>Pool - Time Between Eviction Runs</key>
+                    <value>30 seconds</value>
+                </entry>
+                <entry>
+                    <key>Pool - Num Tests Per Eviction Run</key>
+                    <value>-1</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Create</key>
+                    <value>false</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Borrow</key>
+                    <value>false</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Return</key>
+                    <value>false</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test While Idle</key>
+                    <value>true</value>
+                </entry>
+            </properties>
+            <state>ENABLED</state>
+            <type>org.apache.nifi.redis.service.RedisConnectionPoolService</type>
+        </controllerServices>
+        <controllerServices>
+            <id>7efef488-e61d-30f6-0000-000000000000</id>
+            <parentGroupId>263db4a4-39bb-326f-0000-000000000000</parentGroupId>
+            <bundle>
+                <artifact>nifi-redis-nar</artifact>
+                <group>org.apache.nifi</group>
+                <version>1.11.2</version>
+            </bundle>
+            <comments></comments>
+            <descriptors>
+                <entry>
+                    <key>Redis Mode</key>
+                    <value>
+                        <name>Redis Mode</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Connection String</key>
+                    <value>
+                        <name>Connection String</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Database Index</key>
+                    <value>
+                        <name>Database Index</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Communication Timeout</key>
+                    <value>
+                        <name>Communication Timeout</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Cluster Max Redirects</key>
+                    <value>
+                        <name>Cluster Max Redirects</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Sentinel Master</key>
+                    <value>
+                        <name>Sentinel Master</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Password</key>
+                    <value>
+                        <name>Password</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Total</key>
+                    <value>
+                        <name>Pool - Max Total</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Idle</key>
+                    <value>
+                        <name>Pool - Max Idle</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Idle</key>
+                    <value>
+                        <name>Pool - Min Idle</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Block When Exhausted</key>
+                    <value>
+                        <name>Pool - Block When Exhausted</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Wait Time</key>
+                    <value>
+                        <name>Pool - Max Wait Time</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Evictable Idle Time</key>
+                    <value>
+                        <name>Pool - Min Evictable Idle Time</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Time Between Eviction Runs</key>
+                    <value>
+                        <name>Pool - Time Between Eviction Runs</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Num Tests Per Eviction Run</key>
+                    <value>
+                        <name>Pool - Num Tests Per Eviction Run</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Create</key>
+                    <value>
+                        <name>Pool - Test On Create</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Borrow</key>
+                    <value>
+                        <name>Pool - Test On Borrow</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Return</key>
+                    <value>
+                        <name>Pool - Test On Return</name>
+                    </value>
+                </entry>
+                <entry>
+                    <key>Pool - Test While Idle</key>
+                    <value>
+                        <name>Pool - Test While Idle</name>
+                    </value>
+                </entry>
+            </descriptors>
+            <name>RedisConnectionPoolService - D4 input Queue</name>
+            <persistsState>false</persistsState>
+            <properties>
+                <entry>
+                    <key>Redis Mode</key>
+                    <value>Standalone</value>
+                </entry>
+                <entry>
+                    <key>Connection String</key>
+                    <value>localhost:6380</value>
+                </entry>
+                <entry>
+                    <key>Database Index</key>
+                    <value>2</value>
+                </entry>
+                <entry>
+                    <key>Communication Timeout</key>
+                    <value>10 seconds</value>
+                </entry>
+                <entry>
+                    <key>Cluster Max Redirects</key>
+                    <value>5</value>
+                </entry>
+                <entry>
+                    <key>Sentinel Master</key>
+                </entry>
+                <entry>
+                    <key>Password</key>
+                </entry>
+                <entry>
+                    <key>Pool - Max Total</key>
+                    <value>8</value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Idle</key>
+                    <value>8</value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Idle</key>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <key>Pool - Block When Exhausted</key>
+                    <value>true</value>
+                </entry>
+                <entry>
+                    <key>Pool - Max Wait Time</key>
+                    <value>10 seconds</value>
+                </entry>
+                <entry>
+                    <key>Pool - Min Evictable Idle Time</key>
+                    <value>60 seconds</value>
+                </entry>
+                <entry>
+                    <key>Pool - Time Between Eviction Runs</key>
+                    <value>30 seconds</value>
+                </entry>
+                <entry>
+                    <key>Pool - Num Tests Per Eviction Run</key>
+                    <value>-1</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Create</key>
+                    <value>false</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Borrow</key>
+                    <value>false</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test On Return</key>
+                    <value>false</value>
+                </entry>
+                <entry>
+                    <key>Pool - Test While Idle</key>
+                    <value>true</value>
+                </entry>
+            </properties>
+            <state>ENABLED</state>
+            <type>org.apache.nifi.redis.service.RedisConnectionPoolService</type>
+        </controllerServices>
+        <processGroups>
+            <id>ffa81d5b-0cc1-305b-0000-000000000000</id>
+            <parentGroupId>263db4a4-39bb-326f-0000-000000000000</parentGroupId>
+            <position>
+                <x>0.0</x>
+                <y>0.0</y>
+            </position>
+            <comments></comments>
+            <contents>
+                <connections>
+                    <id>6a308b9e-d472-390e-0000-000000000000</id>
+                    <parentGroupId>ffa81d5b-0cc1-305b-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>ffa81d5b-0cc1-305b-0000-000000000000</groupId>
+                        <id>5dd020c0-55a7-3fe9-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>matched</selectedRelationships>
+                    <source>
+                        <groupId>ffa81d5b-0cc1-305b-0000-000000000000</groupId>
+                        <id>b68be241-13fd-39ee-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <connections>
+                    <id>6d85af87-f816-3630-0000-000000000000</id>
+                    <parentGroupId>ffa81d5b-0cc1-305b-0000-000000000000</parentGroupId>
+                    <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+                    <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+                    <destination>
+                        <groupId>ffa81d5b-0cc1-305b-0000-000000000000</groupId>
+                        <id>b68be241-13fd-39ee-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </destination>
+                    <flowFileExpiration>0 sec</flowFileExpiration>
+                    <labelIndex>1</labelIndex>
+                    <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+                    <loadBalancePartitionAttribute></loadBalancePartitionAttribute>
+                    <loadBalanceStatus>LOAD_BALANCE_NOT_CONFIGURED</loadBalanceStatus>
+                    <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+                    <name></name>
+                    <selectedRelationships>success</selectedRelationships>
+                    <source>
+                        <groupId>ffa81d5b-0cc1-305b-0000-000000000000</groupId>
+                        <id>4edb79d7-a330-3f07-0000-000000000000</id>
+                        <type>PROCESSOR</type>
+                    </source>
+                    <zIndex>0</zIndex>
+                </connections>
+                <processors>
+                    <id>4edb79d7-a330-3f07-0000-000000000000</id>
+                    <parentGroupId>ffa81d5b-0cc1-305b-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-1192.0</x>
+                        <y>-320.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-redis-pubsub-nar</artifact>
+                        <group>org.javajefe.nifi</group>
+                        <version>0.0.2</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>redis-connection-pool</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.redis.RedisConnectionPool</identifiesControllerService>
+    <name>redis-connection-pool</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Queue Mode</key>
+<value>
+    <name>Queue Mode</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Channel/Key Name</key>
+<value>
+    <name>Channel/Key Name</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>redis-connection-pool</key>
+<value>7efef488-e61d-30f6-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>Queue Mode</key>
+<value>LPOP</value>
+                            </entry>
+                            <entry>
+<key>Channel/Key Name</key>
+<value>analyzer:3:d42967c1-f7ad-464e-bbc7-4464c653d7a6</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0.01 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>Pull redis D4</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.javajefe.nifi.processors.redis.pubsub.SubscribeRedis</type>
+                </processors>
+                <processors>
+                    <id>5dd020c0-55a7-3fe9-0000-000000000000</id>
+                    <parentGroupId>ffa81d5b-0cc1-305b-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>136.0</x>
+                        <y>-320.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-redis-pubsub-nar</artifact>
+                        <group>org.javajefe.nifi</group>
+                        <version>0.0.2</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>redis-connection-pool</key>
+<value>
+    <identifiesControllerService>org.apache.nifi.redis.RedisConnectionPool</identifiesControllerService>
+    <name>redis-connection-pool</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Queue Mode</key>
+<value>
+    <name>Queue Mode</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Channel/Key Name</key>
+<value>
+    <name>Channel/Key Name</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>redis-connection-pool</key>
+<value>389f62b0-373a-36bf-0000-000000000000</value>
+                            </entry>
+                            <entry>
+<key>Queue Mode</key>
+<value>LPUSH</value>
+                            </entry>
+                            <entry>
+<key>Channel/Key Name</key>
+<value>sshd</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>Publish Redis sshd diagram compile</name>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>failure</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>success</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.javajefe.nifi.processors.redis.pubsub.PublishRedis</type>
+                </processors>
+                <processors>
+                    <id>b68be241-13fd-39ee-0000-000000000000</id>
+                    <parentGroupId>ffa81d5b-0cc1-305b-0000-000000000000</parentGroupId>
+                    <position>
+                        <x>-488.0</x>
+                        <y>-320.0</y>
+                    </position>
+                    <bundle>
+                        <artifact>nifi-standard-nar</artifact>
+                        <group>org.apache.nifi</group>
+                        <version>1.11.2</version>
+                    </bundle>
+                    <config>
+                        <bulletinLevel>WARN</bulletinLevel>
+                        <comments></comments>
+                        <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                        <descriptors>
+                            <entry>
+<key>Grok Expression</key>
+<value>
+    <name>Grok Expression</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Grok Pattern file</key>
+<value>
+    <name>Grok Pattern file</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Destination</key>
+<value>
+    <name>Destination</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>
+    <name>Character Set</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>
+    <name>Maximum Buffer Size</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Named captures only</key>
+<value>
+    <name>Named captures only</name>
+</value>
+                            </entry>
+                            <entry>
+<key>Keep Empty Captures</key>
+<value>
+    <name>Keep Empty Captures</name>
+</value>
+                            </entry>
+                        </descriptors>
+                        <executionNode>ALL</executionNode>
+                        <lossTolerant>false</lossTolerant>
+                        <penaltyDuration>30 sec</penaltyDuration>
+                        <properties>
+                            <entry>
+<key>Grok Expression</key>
+<value>(?:%{SYSLOGTIMESTAMP:syslog_timestamp}|%{TIMESTAMP_ISO8601:syslog_timestamp}) %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{SSHD_PROBE_LOG:ssh_message}</value>
+                            </entry>
+                            <entry>
+<key>Grok Pattern file</key>
+<value>grokfiles/sshd</value>
+                            </entry>
+                            <entry>
+<key>Destination</key>
+<value>flowfile-content</value>
+                            </entry>
+                            <entry>
+<key>Character Set</key>
+<value>UTF-8</value>
+                            </entry>
+                            <entry>
+<key>Maximum Buffer Size</key>
+<value>1 MB</value>
+                            </entry>
+                            <entry>
+<key>Named captures only</key>
+<value>true</value>
+                            </entry>
+                            <entry>
+<key>Keep Empty Captures</key>
+<value>false</value>
+                            </entry>
+                        </properties>
+                        <runDurationMillis>0</runDurationMillis>
+                        <schedulingPeriod>0 sec</schedulingPeriod>
+                        <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                        <yieldDuration>1 sec</yieldDuration>
+                    </config>
+                    <executionNodeRestricted>false</executionNodeRestricted>
+                    <name>ExtractGrok-SSHD</name>
+                    <relationships>
+                        <autoTerminate>false</autoTerminate>
+                        <name>matched</name>
+                    </relationships>
+                    <relationships>
+                        <autoTerminate>true</autoTerminate>
+                        <name>unmatched</name>
+                    </relationships>
+                    <state>STOPPED</state>
+                    <style/>
+                    <type>org.apache.nifi.processors.standard.ExtractGrok</type>
+                </processors>
+            </contents>
+            <name>Grok D4 SSH</name>
+            <variables/>
+        </processGroups>
+    </snippet>
+    <timestamp>04/03/2020 12:14:07 CEST</timestamp>
+</template>
